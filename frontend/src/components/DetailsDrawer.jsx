@@ -1,8 +1,8 @@
-import { Trash2, X } from "lucide-react";
+import { Trash2, X, Edit2 } from "lucide-react";
 
 const currency = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
 
-export default function DetailsDrawer({ open, title, items, labelKey, total, onClose, onDelete }) {
+export default function DetailsDrawer({ open, title, items, labelKey, total, onClose, onDelete, onEdit }) {
   if (!open) {
     return null;
   }
@@ -34,14 +34,26 @@ export default function DetailsDrawer({ open, title, items, labelKey, total, onC
                         <h3 className="font-semibold capitalize text-ink">{item[labelKey]}</h3>
                         <p className="text-sm text-slate-500">{item.description || "Sem descrição"}</p>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => onDelete(item.id)}
-                        className="rounded-md p-2 text-red-600 hover:bg-red-50"
-                        aria-label="Excluir lançamento"
-                      >
-                        <Trash2 size={18} />
-                      </button>
+                      <div className="flex gap-2">
+                        {onEdit && (
+                          <button
+                            type="button"
+                            onClick={() => onEdit(item)}
+                            className="rounded-md p-2 text-blue-600 hover:bg-blue-50"
+                            aria-label="Editar lançamento"
+                          >
+                            <Edit2 size={18} />
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => onDelete(item.id)}
+                          className="rounded-md p-2 text-red-600 hover:bg-red-50"
+                          aria-label="Excluir lançamento"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
                     </div>
                     <div className="mt-3 flex flex-wrap gap-2 text-sm">
                       <span className="rounded-md bg-slate-100 px-2.5 py-1 font-semibold text-slate-700">{currency.format(item.value)}</span>

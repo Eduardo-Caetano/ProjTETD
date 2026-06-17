@@ -17,6 +17,11 @@ export function useIncome() {
     await loadIncome();
   };
 
+  const updateIncome = async (id, payload) => {
+    await api.put(`/income/${id}`, payload);
+    await loadIncome();
+  };
+
   const deleteIncome = async (id) => {
     await api.delete(`/income/${id}`);
     await loadIncome();
@@ -26,5 +31,5 @@ export function useIncome() {
     loadIncome();
   }, [loadIncome]);
 
-  return { income, loading, loadIncome, addIncome, deleteIncome };
+  return { income, loading, loadIncome, addIncome, updateIncome, deleteIncome };
 }

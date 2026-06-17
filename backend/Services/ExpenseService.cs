@@ -33,6 +33,23 @@ public class ExpenseService
         return expense;
     }
 
+    public Expense? Update(Guid id, UpdateExpenseDto dto)
+    {
+        lock (_lock)
+        {
+            var expense = _expenses.FirstOrDefault(item => item.Id == id);
+            if (expense is null)
+            {
+                return null;
+            }
+
+            expense.Category = dto.Category.Trim().ToLowerInvariant();
+            expense.Value = dto.Value;
+            expense.Description = string.IsNullOrWhiteSpace(dto.Description) ? null : dto.Description.Trim();
+            return expense;
+        }
+    }
+
     public bool Delete(Guid id)
     {
         lock (_lock)

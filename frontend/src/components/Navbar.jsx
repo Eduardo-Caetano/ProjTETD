@@ -1,6 +1,6 @@
-import { WalletCards } from "lucide-react";
+import { WalletCards, Printer } from "lucide-react";
 
-export default function Navbar() {
+export default function Navbar({ onPrint }) {
   return (
     <header className="border-b border-slate-200 bg-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
@@ -13,6 +13,16 @@ export default function Navbar() {
             <p className="text-sm text-slate-500">Controle financeiro pessoal</p>
           </div>
         </div>
+        {onPrint && (
+          <button
+            onClick={onPrint}
+            className="flex items-center gap-2 rounded-lg bg-ocean px-4 py-2 text-white hover:bg-blue-700 transition-colors"
+            title="Imprimir relatório mensal"
+          >
+            <Printer size={18} />
+            <span className="hidden sm:inline">Imprimir</span>
+          </button>
+        )}
       </div>
     </header>
   );

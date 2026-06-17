@@ -21,6 +21,13 @@ public class IncomeController(IncomeService incomeService) : ControllerBase
         return Created($"/income/{income.Id}", income);
     }
 
+    [HttpPut("{id:guid}")]
+    public IActionResult Update(Guid id, UpdateIncomeDto dto)
+    {
+        var income = incomeService.Update(id, dto);
+        return income is not null ? Ok(income) : NotFound();
+    }
+
     [HttpDelete("{id:guid}")]
     public IActionResult Delete(Guid id)
     {

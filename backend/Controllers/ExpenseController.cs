@@ -21,6 +21,13 @@ public class ExpenseController(ExpenseService expenseService) : ControllerBase
         return Created($"/expenses/{expense.Id}", expense);
     }
 
+    [HttpPut("{id:guid}")]
+    public IActionResult Update(Guid id, UpdateExpenseDto dto)
+    {
+        var expense = expenseService.Update(id, dto);
+        return expense is not null ? Ok(expense) : NotFound();
+    }
+
     [HttpDelete("{id:guid}")]
     public IActionResult Delete(Guid id)
     {

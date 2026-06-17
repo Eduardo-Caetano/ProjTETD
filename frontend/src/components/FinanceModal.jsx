@@ -1,10 +1,22 @@
 import { X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function FinanceModal({ open, title, labelName, options, onClose, onSubmit }) {
+export default function FinanceModal({ open, title, labelName, options, onClose, onSubmit, editingItem }) {
   const [form, setForm] = useState({ name: options[0], value: "", description: "" });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (editingItem) {
+      setForm({
+        name: editingItem[labelName === "Tipo" ? "type" : "category"],
+        value: editingItem.value.toString(),
+        description: editingItem.description || "",
+      });
+    } else {
+      setForm({ name: options[0], value: "", description: "" });
+    }
+  }, [editingItem, labelName, options]);
 
   if (!open) {
     return null;
@@ -17,6 +29,7 @@ export default function FinanceModal({ open, title, labelName, options, onClose,
 
     try {
       await onSubmit({
+        id: editingItem?.id,
         name: form.name,
         value: Number(form.value),
         description: form.description.trim() || null
@@ -94,7 +107,7 @@ export default function FinanceModal({ open, title, labelName, options, onClose,
             Cancelar
           </button>
           <button type="submit" disabled={saving} className="rounded-md bg-ocean px-4 py-2 text-sm font-semibold text-white disabled:opacity-60">
-            {saving ? "Salvando..." : "Salvar"}
+            {saving ? "Salvando..." : editingItem ? "Atualizar" : "Salvar"}
           </button>
         </div>
       </form>

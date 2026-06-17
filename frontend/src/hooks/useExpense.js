@@ -17,6 +17,11 @@ export function useExpense() {
     await loadExpenses();
   };
 
+  const updateExpense = async (id, payload) => {
+    await api.put(`/expenses/${id}`, payload);
+    await loadExpenses();
+  };
+
   const deleteExpense = async (id) => {
     await api.delete(`/expenses/${id}`);
     await loadExpenses();
@@ -26,5 +31,5 @@ export function useExpense() {
     loadExpenses();
   }, [loadExpenses]);
 
-  return { expenses, loading, loadExpenses, addExpense, deleteExpense };
+  return { expenses, loading, loadExpenses, addExpense, updateExpense, deleteExpense };
 }
