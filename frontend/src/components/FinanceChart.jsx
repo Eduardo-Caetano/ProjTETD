@@ -18,16 +18,16 @@ export default function FinanceChart({ title, items, nameKey, actionLabel, onAdd
   const total = items.reduce((sum, item) => sum + Number(item.value), 0);
 
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition-colors dark:border-slate-800 dark:bg-slate-900">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-lg font-semibold text-ink">{title}</h2>
-          <p className="text-sm text-slate-500">{items.length} lançamento(s)</p>
+          <h2 className="text-lg font-semibold text-ink dark:text-slate-100">{title}</h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400">{items.length} lançamento(s)</p>
         </div>
         <button
           type="button"
           onClick={onAdd}
-          className="rounded-md bg-ink px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700"
+          className="rounded-md bg-ink px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 dark:bg-teal-600 dark:hover:bg-teal-500"
         >
           {actionLabel}
         </button>
@@ -36,7 +36,7 @@ export default function FinanceChart({ title, items, nameKey, actionLabel, onAdd
       <button
         type="button"
         onClick={onOpenDetails}
-        className="relative h-72 w-full rounded-md border border-slate-100 bg-slate-50 transition hover:border-slate-300"
+        className="relative h-72 w-full rounded-md border border-slate-100 bg-slate-50 transition hover:border-slate-300 dark:border-slate-800 dark:bg-slate-950 dark:hover:border-slate-700"
         aria-label={`Abrir detalhes de ${title}`}
       >
         {data.length > 0 ? (
@@ -53,13 +53,13 @@ export default function FinanceChart({ title, items, nameKey, actionLabel, onAdd
             </ResponsiveContainer>
             <div className="pointer-events-none absolute inset-0 grid place-items-center">
               <div className="text-center">
-                <span className="text-xs font-semibold uppercase text-slate-500">Total</span>
-                <strong className="block text-xl text-ink">{currency.format(total)}</strong>
+                <span className="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400">Total</span>
+                <strong className="block text-xl text-ink dark:text-slate-100">{currency.format(total)}</strong>
               </div>
             </div>
           </>
         ) : (
-          <div className="grid h-full place-items-center px-4 text-center text-sm text-slate-500">
+          <div className="grid h-full place-items-center px-4 text-center text-sm text-slate-500 dark:text-slate-400">
             Nenhum lançamento cadastrado.
           </div>
         )}

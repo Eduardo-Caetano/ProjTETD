@@ -25,13 +25,13 @@ export default function ManageCategoriesModal({ open, onClose, expenseCategories
 
   return (
     <div className="fixed inset-0 z-40 grid place-items-center bg-slate-950/50 p-4" onClick={onClose}>
-      <div className="w-full max-w-md max-h-96 overflow-y-auto rounded-lg bg-white p-5 shadow-xl" onClick={(e) => e.stopPropagation()}>
+      <div className="w-full max-w-md max-h-96 overflow-y-auto rounded-lg bg-white p-5 shadow-xl dark:bg-slate-900" onClick={(e) => e.stopPropagation()}>
         <div className="mb-5 flex items-center justify-between gap-4">
-          <h2 className="text-lg font-semibold text-ink">Gerenciar categorias</h2>
+          <h2 className="text-lg font-semibold text-ink dark:text-slate-100">Gerenciar categorias</h2>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md p-2 text-slate-500 hover:bg-slate-100"
+            className="rounded-md p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
             aria-label="Fechar modal"
           >
             <X size={20} />
@@ -40,7 +40,7 @@ export default function ManageCategoriesModal({ open, onClose, expenseCategories
 
         {/* Categorias de Gasto */}
         <div className="mb-6">
-          <h3 className="mb-3 font-semibold text-slate-700">Categorias de Gasto</h3>
+          <h3 className="mb-3 font-semibold text-slate-700 dark:text-slate-300">Categorias de Gasto</h3>
           <div className="mb-3 flex gap-2">
             <input
               type="text"
@@ -48,7 +48,7 @@ export default function ManageCategoriesModal({ open, onClose, expenseCategories
               onChange={(e) => setNewExpenseCategory(e.target.value)}
               placeholder="Nova categoria..."
               onKeyPress={(e) => e.key === "Enter" && handleAddExpense()}
-              className="flex-1 rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-ocean focus:ring-2 focus:ring-ocean/20"
+              className="flex-1 rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-ocean focus:ring-2 focus:ring-ocean/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
             />
             <button
               type="button"
@@ -63,7 +63,7 @@ export default function ManageCategoriesModal({ open, onClose, expenseCategories
             {expenseCategories.map((category) => (
               <div
                 key={category}
-                className="flex items-center gap-2 rounded-md bg-slate-100 px-3 py-1 text-sm"
+                className="flex items-center gap-2 rounded-md bg-slate-100 px-3 py-1 text-sm dark:bg-slate-800 dark:text-slate-200"
               >
                 <span className="capitalize">{category}</span>
                 <button
@@ -81,7 +81,7 @@ export default function ManageCategoriesModal({ open, onClose, expenseCategories
 
         {/* Tipos de Renda */}
         <div>
-          <h3 className="mb-3 font-semibold text-slate-700">Tipos de Renda</h3>
+          <h3 className="mb-3 font-semibold text-slate-700 dark:text-slate-300">Tipos de Renda</h3>
           <div className="mb-3 flex gap-2">
             <input
               type="text"
@@ -89,7 +89,7 @@ export default function ManageCategoriesModal({ open, onClose, expenseCategories
               onChange={(e) => setNewIncomeType(e.target.value)}
               placeholder="Novo tipo..."
               onKeyPress={(e) => e.key === "Enter" && handleAddIncome()}
-              className="flex-1 rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-ocean focus:ring-2 focus:ring-ocean/20"
+              className="flex-1 rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-ocean focus:ring-2 focus:ring-ocean/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
             />
             <button
               type="button"
@@ -104,7 +104,7 @@ export default function ManageCategoriesModal({ open, onClose, expenseCategories
             {incomeTypes.map((type) => (
               <div
                 key={type}
-                className="flex items-center gap-2 rounded-md bg-slate-100 px-3 py-1 text-sm"
+                className="flex items-center gap-2 rounded-md bg-slate-100 px-3 py-1 text-sm dark:bg-slate-800 dark:text-slate-200"
               >
                 <span className="capitalize">{type}</span>
                 <button

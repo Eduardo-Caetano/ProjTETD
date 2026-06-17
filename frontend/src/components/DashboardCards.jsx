@@ -29,11 +29,11 @@ export default function DashboardCards({ summary }) {
       {cards.map((card) => {
         const Icon = card.icon;
         return (
-          <article key={card.label} className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+          <article key={card.label} className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition-colors dark:border-slate-800 dark:bg-slate-900">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-sm font-medium text-slate-500">{card.label}</p>
-                <strong className="mt-2 block text-2xl font-semibold text-ink">{card.value}</strong>
+                <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{card.label}</p>
+                <strong className="mt-2 block text-2xl font-semibold text-ink dark:text-slate-100">{card.value}</strong>
               </div>
               <Icon className={card.color} size={26} />
             </div>

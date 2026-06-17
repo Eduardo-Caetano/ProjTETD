@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DashboardCards from "../components/DashboardCards.jsx";
 import DetailsDrawer from "../components/DetailsDrawer.jsx";
 import ExpenseChart from "../components/ExpenseChart.jsx";
@@ -41,11 +41,20 @@ export default function Dashboard() {
   const [deleteAllModalOpen, setDeleteAllModalOpen] = useState(false);
   const [manageCategoriesOpen, setManageCategoriesOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("moneyscope-theme") === "dark";
+  });
 
   const { income, addIncome, updateIncome, deleteIncome, loadIncome } = useIncome();
   const { expenses, addExpense, updateExpense, deleteExpense, loadExpenses } = useExpense();
   const { summary, insights, loadDashboard } = useDashboard();
   const { expenseCategories, incomeTypes, addExpenseCategory, addIncomeType, removeExpenseCategory, removeIncomeType, resetAll } = useCustomCategories();
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", darkMode);
+    document.documentElement.dataset.theme = darkMode ? "dark" : "light";
+    localStorage.setItem("moneyscope-theme", darkMode ? "dark" : "light");
+  }, [darkMode]);
 
   // Mesclar categorias padrão com customizadas
   const allExpenseCategories = [...new Set([...defaultExpenseCategories, ...expenseCategories])];
@@ -283,6 +292,8 @@ export default function Dashboard() {
         onPrint={handlePrint} 
         onDeleteAll={() => setDeleteAllModalOpen(true)}
         onManageCategories={() => setManageCategoriesOpen(true)}
+        darkMode={darkMode}
+        onToggleTheme={() => setDarkMode((current) => !current)}
       />
       <main className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 lg:px-8">
         <DashboardCards summary={summary} />

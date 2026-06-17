@@ -1,23 +1,34 @@
-import { WalletCards, Printer, Trash2, Settings } from "lucide-react";
+import { Moon, Printer, Settings, Sun, Trash2, WalletCards } from "lucide-react";
 
-export default function Navbar({ onPrint, onDeleteAll, onManageCategories }) {
+export default function Navbar({ onPrint, onDeleteAll, onManageCategories, darkMode, onToggleTheme }) {
   return (
-    <header className="border-b border-slate-200 bg-white">
+    <header className="border-b border-slate-200 bg-white transition-colors dark:border-slate-800 dark:bg-slate-900">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-3">
           <span className="grid h-10 w-10 place-items-center rounded-md bg-ocean text-white">
             <WalletCards size={22} />
           </span>
           <div>
-            <h1 className="text-xl font-semibold tracking-normal text-ink">MoneyScope</h1>
-            <p className="text-sm text-slate-500">Controle financeiro pessoal</p>
+            <h1 className="text-xl font-semibold tracking-normal text-ink dark:text-slate-100">MoneyScope</h1>
+            <p className="text-sm text-slate-500 dark:text-slate-400">Controle financeiro pessoal</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
+          {onToggleTheme && (
+            <button
+              onClick={onToggleTheme}
+              className="flex items-center gap-2 rounded-lg bg-slate-200 px-3 py-2 text-slate-700 transition-colors hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
+              title={darkMode ? "Ativar modo claro" : "Ativar modo escuro"}
+              aria-label={darkMode ? "Ativar modo claro" : "Ativar modo escuro"}
+            >
+              {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+              <span className="hidden sm:inline text-sm">{darkMode ? "Claro" : "Escuro"}</span>
+            </button>
+          )}
           {onManageCategories && (
             <button
               onClick={onManageCategories}
-              className="flex items-center gap-2 rounded-lg bg-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-300 transition-colors"
+              className="flex items-center gap-2 rounded-lg bg-slate-200 px-3 py-2 text-slate-700 transition-colors hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
               title="Gerenciar categorias"
             >
               <Settings size={18} />
