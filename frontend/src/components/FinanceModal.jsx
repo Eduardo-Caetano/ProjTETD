@@ -48,8 +48,8 @@ export default function FinanceModal({ open, title, labelName, options, onClose,
   };
 
   return (
-    <div className="fixed inset-0 z-40 grid place-items-center bg-slate-950/50 p-4">
-      <form onSubmit={handleSubmit} className="w-full max-w-md rounded-lg bg-white p-5 shadow-xl">
+    <div className="fixed inset-0 z-40 grid place-items-center bg-slate-950/50 p-4" onClick={onClose}>
+      <form onSubmit={handleSubmit} className="w-full max-w-md rounded-lg bg-white p-5 shadow-xl" onClick={(e) => e.stopPropagation()}>
         <div className="mb-5 flex items-center justify-between gap-4">
           <h2 className="text-lg font-semibold text-ink">{title}</h2>
           <button type="button" onClick={onClose} className="rounded-md p-2 text-slate-500 hover:bg-slate-100" aria-label="Fechar modal">

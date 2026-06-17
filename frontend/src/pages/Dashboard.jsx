@@ -7,9 +7,13 @@ import IncomeChart from "../components/IncomeChart.jsx";
 import IncomeModal from "../components/IncomeModal.jsx";
 import InsightCards from "../components/InsightCards.jsx";
 import Navbar from "../components/Navbar.jsx";
+import ConfirmDeleteAllModal from "../components/ConfirmDeleteAllModal.jsx";
+import ManageCategoriesModal from "../components/ManageCategoriesModal.jsx";
 import { useDashboard } from "../hooks/useDashboard";
 import { useExpense } from "../hooks/useExpense";
 import { useIncome } from "../hooks/useIncome";
+import { useCustomCategories } from "../hooks/useCustomCategories";
+import { incomeTypes as defaultIncomeTypes, expenseCategories as defaultExpenseCategories } from "../types/options";
 
 const formatCurrency = (value) => {
   return new Intl.NumberFormat("pt-BR", {
@@ -34,10 +38,18 @@ export default function Dashboard() {
   const [drawer, setDrawer] = useState(null);
   const [editingIncome, setEditingIncome] = useState(null);
   const [editingExpense, setEditingExpense] = useState(null);
+  const [deleteAllModalOpen, setDeleteAllModalOpen] = useState(false);
+  const [manageCategoriesOpen, setManageCategoriesOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const { income, addIncome, updateIncome, deleteIncome, loadIncome } = useIncome();
   const { expenses, addExpense, updateExpense, deleteExpense, loadExpenses } = useExpense();
   const { summary, insights, loadDashboard } = useDashboard();
+  const { expenseCategories, incomeTypes, addExpenseCategory, addIncomeType, removeExpenseCategory, removeIncomeType, resetAll } = useCustomCategories();
+
+  // Mesclar categorias padrão com customizadas
+  const allExpenseCategories = [...new Set([...defaultExpenseCategories, ...expenseCategories])];
+  const allIncomeTypes = [...new Set([...defaultIncomeTypes, ...incomeTypes])];
 
   const refreshAll = async () => {
     await Promise.all([loadIncome(), loadExpenses(), loadDashboard()]);
@@ -91,6 +103,26 @@ export default function Dashboard() {
   const handleCloseExpenseModal = () => {
     setExpenseModalOpen(false);
     setEditingExpense(null);
+  };
+
+  const handleDeleteAll = async () => {
+    setIsDeleting(true);
+    try {
+      // Apagar todas as receitas
+      for (const item of income) {
+        await deleteIncome(item.id);
+      }
+      // Apagar todas as despesas
+      for (const item of expenses) {
+        await deleteExpense(item.id);
+      }
+      // Resetar categorias customizadas
+      resetAll();
+      await loadDashboard();
+    } finally {
+      setIsDeleting(false);
+      setDeleteAllModalOpen(false);
+    }
   };
 
   const incomeTotal = income.reduce((sum, item) => sum + Number(item.value), 0);
@@ -247,7 +279,11 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen">
-      <Navbar onPrint={handlePrint} />
+      <Navbar 
+        onPrint={handlePrint} 
+        onDeleteAll={() => setDeleteAllModalOpen(true)}
+        onManageCategories={() => setManageCategoriesOpen(true)}
+      />
       <main className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 lg:px-8">
         <DashboardCards summary={summary} />
 
@@ -259,8 +295,8 @@ export default function Dashboard() {
         <InsightCards insights={insights} />
       </main>
 
-      <IncomeModal open={incomeModalOpen} onClose={handleCloseIncomeModal} onSubmit={handleAddIncome} editingItem={editingIncome} />
-      <ExpenseModal open={expenseModalOpen} onClose={handleCloseExpenseModal} onSubmit={handleAddExpense} editingItem={editingExpense} />
+      <IncomeModal open={incomeModalOpen} onClose={handleCloseIncomeModal} onSubmit={handleAddIncome} editingItem={editingIncome} allIncomeTypes={allIncomeTypes} />
+      <ExpenseModal open={expenseModalOpen} onClose={handleCloseExpenseModal} onSubmit={handleAddExpense} editingItem={editingExpense} allExpenseCategories={allExpenseCategories} />
 
       <DetailsDrawer
         open={drawer === "income"}
@@ -281,6 +317,24 @@ export default function Dashboard() {
         onClose={() => setDrawer(null)}
         onEdit={handleEditExpense}
         onDelete={handleDeleteExpense}
+      />
+
+      <ConfirmDeleteAllModal 
+        open={deleteAllModalOpen} 
+        onClose={() => setDeleteAllModalOpen(false)}
+        onConfirm={handleDeleteAll}
+        isDeleting={isDeleting}
+      />
+
+      <ManageCategoriesModal
+        open={manageCategoriesOpen}
+        onClose={() => setManageCategoriesOpen(false)}
+        expenseCategories={expenseCategories}
+        incomeTypes={incomeTypes}
+        onAddExpense={addExpenseCategory}
+        onAddIncome={addIncomeType}
+        onRemoveExpense={removeExpenseCategory}
+        onRemoveIncome={removeIncomeType}
       />
     </div>
   );

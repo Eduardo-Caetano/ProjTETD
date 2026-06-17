@@ -1,13 +1,15 @@
 import FinanceModal from "./FinanceModal.jsx";
 import { incomeTypes } from "../types/options";
 
-export default function IncomeModal({ open, onClose, onSubmit, editingItem }) {
+export default function IncomeModal({ open, onClose, onSubmit, editingItem, allIncomeTypes }) {
+  const options = allIncomeTypes || incomeTypes;
+  
   return (
     <FinanceModal
       open={open}
       title={editingItem ? "Editar renda" : "Adicionar renda"}
       labelName="Tipo"
-      options={incomeTypes}
+      options={options}
       onClose={onClose}
       onSubmit={(payload) => onSubmit({ id: payload.id, type: payload.name, value: payload.value, description: payload.description })}
       editingItem={editingItem}

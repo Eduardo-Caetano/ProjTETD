@@ -8,8 +8,8 @@ export default function DetailsDrawer({ open, title, items, labelKey, total, onC
   }
 
   return (
-    <div className="fixed inset-0 z-30 bg-slate-950/40">
-      <aside className="ml-auto flex h-full w-full max-w-xl flex-col bg-white shadow-xl">
+    <div className="fixed inset-0 z-30 bg-slate-950/40" onClick={onClose}>
+      <aside className="ml-auto flex h-full w-full max-w-xl flex-col bg-white shadow-xl" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between border-b border-slate-200 p-5">
           <div>
             <h2 className="text-lg font-semibold text-ink">{title}</h2>
